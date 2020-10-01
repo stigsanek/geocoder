@@ -1,0 +1,6 @@
+.DS_Store
+Thumbs.db
+.vscode/
+csv/error.csv
+csv/output.csv
+modules/__pycache__
