@@ -1,6 +1,14 @@
 .DS_Store
 Thumbs.db
+
+.idea/
 .vscode/
+
+__pycache__/
+*/__pycache__/
+
+venv/
+
 csv/error.csv
 csv/output.csv
-modules/__pycache__
+logs/

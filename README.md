@@ -5,8 +5,9 @@ Determination of geocoordinates by address or vice versa from a csv file
 
 * Set your api key Yandex and geocoding order in `start.py`:
 
-```
+```python
 API_KEY = 'set_api_key'
+
 #is_reverse=TRUE - geocoding by address
 #is_reverse=False - geocoding by coordinates
 run_geocoder(API_KEY, is_reverse=False)
