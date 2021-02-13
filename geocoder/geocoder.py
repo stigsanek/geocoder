@@ -12,8 +12,14 @@ def run_geocoder(api_key, is_reverse):
     str_query = f'https://geocode-maps.yandex.ru/1.x/?&apikey={api_key}&format=json&geocode='
 
     for item in data:
-        line_id, param, src_line = item['id'], item['param'], item['src_line']
-        query = str_query + param
+        global line_id, src_line, query
+
+        try:
+            line_id, param, src_line = item['id'], item['param'], item['src_line']
+            query = str_query + param
+        except Exception as err:
+            logger.error(f'Invalid input data. Error: {err}')
+            exit()
 
         try:
             response = requests.get(query)

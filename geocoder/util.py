@@ -4,14 +4,17 @@ import os
 def create_param(is_reverse, data):
     line_id = data[0]
 
-    if is_reverse:
-        param = data[1]
-        src_line = [data[0], data[1]]
-    else:
-        param = data[1] + ',' + data[2]
-        src_line = [data[0], data[1], data[2]]
+    try:
+        if is_reverse:
+            param = data[1]
+            src_line = [data[0], data[1]]
+        else:
+            param = data[1] + ',' + data[2]
+            src_line = [data[0], data[1], data[2]]
 
-    return {'id': line_id, 'param': param, 'src_line': src_line}
+        return {'id': line_id, 'param': param, 'src_line': src_line}
+    except Exception:
+        pass
 
 
 def parse_file(is_reverse):
@@ -43,7 +46,7 @@ def parse_result(is_reverse, line_id, resp):
         else:
             result = data['metaDataProperty']['GeocoderMetaData']['Address']['formatted']
             return [line_id] + result.split(', ')
-    except KeyError:
+    except Exception:
         return [line_id] + ['Н/Д']
 
 
