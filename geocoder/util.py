@@ -1,5 +1,7 @@
 import os
 
+from collections import OrderedDict
+
 
 def create_param(is_reverse, data):
     line_id = data[0]
@@ -39,15 +41,36 @@ def parse_file(is_reverse):
 def parse_result(is_reverse, line_id, resp):
     try:
         data = resp['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']
+        address_data = get_address_components(data)
+        address = list(address_data.values())
 
         if is_reverse:
-            result = data['Point']['pos']
-            return [line_id] + result.split()
+            coord = data['Point']['pos']
+            return [line_id] + coord.split() + address
         else:
-            result = data['metaDataProperty']['GeocoderMetaData']['Address']['formatted']
-            return [line_id] + result.split(', ')
+            return [line_id] + address
     except Exception:
         return [line_id] + ['Н/Д']
+
+
+def get_address_components(data):
+    result = OrderedDict()
+    result['country'] = None
+    result['province'] = None
+    result['area'] = None
+    result['locality'] = None
+    result['street'] = None
+    result['house'] = None
+
+    for key in result.keys():
+        for component in data['metaDataProperty']['GeocoderMetaData']['Address']['Components']:
+            if component['kind'] == key:
+                if result[key]:
+                    result[key] += ';' + component['name']
+                else:
+                    result[key] = component['name']
+
+    return result
 
 
 def write_data(file, data):

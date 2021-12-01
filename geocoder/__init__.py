@@ -1,1 +1,1 @@
-from .geocoder import run_geocoder
+from geocoder.geocoder import run_geocoder

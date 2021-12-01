@@ -1,7 +1,7 @@
 import requests
 
-from .logger import logger
-from .util import parse_file, parse_result, write_data
+from geocoder.logger import logger
+from geocoder.util import parse_file, parse_result, write_data
 
 
 def run_geocoder(api_key, is_reverse):
