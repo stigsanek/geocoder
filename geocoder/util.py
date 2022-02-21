@@ -78,5 +78,6 @@ def write_data(file, data):
 
     with open(file_name, 'a', encoding='utf8') as output_file:
         for item in data:
-            line = ';'.join(item)
+            filter_data = tuple(filter(lambda i: isinstance(i, str), item))
+            line = ';'.join(filter_data)
             output_file.write(line + '\n')
