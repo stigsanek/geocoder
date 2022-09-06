@@ -12,3 +12,5 @@ venv/
 csv/error.csv
 csv/output.csv
 logs/
+
+*env
