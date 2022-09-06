@@ -1,9 +1,11 @@
-import os
-
 from collections import OrderedDict
+
+from geocoder.config import CSV_DIR
+from geocoder.logger import logger
 
 
 def create_param(is_reverse, data):
+    """Creates parameter"""
     line_id = data[0]
 
     try:
@@ -15,15 +17,15 @@ def create_param(is_reverse, data):
             src_line = [data[0], data[1], data[2]]
 
         return {'id': line_id, 'param': param, 'src_line': src_line}
-    except Exception:
-        pass
+    except Exception as err:
+        logger.error(f'Create param error: {err}')
 
 
 def parse_file(is_reverse):
+    """Parses file"""
     input_data = []
-    file_name = os.path.join('csv', 'input.csv')
 
-    with open(file_name, encoding='utf8') as input_file:
+    with open(CSV_DIR / 'input.csv', encoding='utf-8') as input_file:
 
         for line in input_file:
             data = line.split(';')
@@ -39,6 +41,7 @@ def parse_file(is_reverse):
 
 
 def parse_result(is_reverse, line_id, resp):
+    """Parses result"""
     try:
         data = resp['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']
         address_data = get_address_components(data)
@@ -54,6 +57,7 @@ def parse_result(is_reverse, line_id, resp):
 
 
 def get_address_components(data):
+    """Returns address components"""
     result = OrderedDict()
     result['country'] = None
     result['province'] = None
@@ -74,9 +78,8 @@ def get_address_components(data):
 
 
 def write_data(file, data):
-    file_name = os.path.join('csv', f'{file}.csv')
-
-    with open(file_name, 'a', encoding='utf8') as output_file:
+    """Writes data to file"""
+    with open(CSV_DIR / f'{file}.csv', 'a', encoding='utf-8') as output_file:
         for item in data:
             filter_data = tuple(filter(lambda i: isinstance(i, str), item))
             line = ';'.join(filter_data)

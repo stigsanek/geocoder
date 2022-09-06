@@ -1,10 +1,14 @@
+import sys
+
 import requests
 
+from geocoder.config import API_KEY, IS_REVERSE
 from geocoder.logger import logger
 from geocoder.util import parse_file, parse_result, write_data
 
 
 def run_geocoder(api_key, is_reverse):
+    """Runs geocoding"""
     data = parse_file(is_reverse)
     outputs = []
     errors = []
@@ -12,14 +16,13 @@ def run_geocoder(api_key, is_reverse):
     str_query = f'https://geocode-maps.yandex.ru/1.x/?&apikey={api_key}&format=json&geocode='
 
     for item in data:
-        global line_id, src_line, query
-
         try:
             line_id, param, src_line = item['id'], item['param'], item['src_line']
             query = str_query + param
         except Exception as err:
-            logger.error(f'Invalid input data. Error: {err}')
-            exit()
+            logger.error('Invalid input data')
+            logger.exception(err)
+            sys.exit()
 
         try:
             response = requests.get(query)
@@ -45,3 +48,11 @@ def run_geocoder(api_key, is_reverse):
 
     logger.info(f'Successfully processed: {len(outputs)}')
     logger.info(f'Handled with error: {len(errors)}')
+
+
+if __name__ == '__main__':
+    try:
+        run_geocoder(api_key=API_KEY, is_reverse=IS_REVERSE)
+
+    except Exception as err:
+        logger.exception(err)
