@@ -54,5 +54,5 @@ if __name__ == '__main__':
     try:
         run_geocoder(api_key=API_KEY, is_reverse=IS_REVERSE)
 
-    except Exception as err:
-        logger.exception(err)
+    except Exception as error:
+        logger.exception(error)

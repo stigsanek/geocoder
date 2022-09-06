@@ -1,0 +1,14 @@
+[MAIN]
+# E0401: import-error
+# W0703: broad-except
+# W1203: logging-fstring-interpolation
+# C0114: missing-module-docstring
+# C0206: consider-using-dict-items
+# R0201: no-self-use
+disable=E0401, W0703, W1203, C0114, C0206, R0201
+
+[DESIGN]
+min-public-methods=1
+
+[FORMAT]
+max-line-length=120

@@ -19,6 +19,7 @@ def create_param(is_reverse, data):
         return {'id': line_id, 'param': param, 'src_line': src_line}
     except Exception as err:
         logger.error(f'Create param error: {err}')
+        return None
 
 
 def parse_file(is_reverse):
@@ -50,8 +51,9 @@ def parse_result(is_reverse, line_id, resp):
         if is_reverse:
             coord = data['Point']['pos']
             return [line_id] + coord.split() + address
-        else:
-            return [line_id] + address
+
+        return [line_id] + address
+
     except Exception:
         return [line_id] + ['Н/Д']
 
