@@ -1,16 +1,17 @@
 # py-csv-geocoder
+
 Determination of geocoordinates by address or vice versa from a csv file
 
 ## Configuring data
 
-* Set your api key Yandex and geocoding order in `start.py`:
+In the project directory create file `.env` and set data:
 
-```python
-API_KEY = 'set_api_key'
+```
+API_KEY="your Yandex token"
 
-#is_reverse=TRUE - geocoding by address
-#is_reverse=False - geocoding by coordinates
-run_geocoder(API_KEY, is_reverse=False)
+# IS_REVERSE=1 - geocoding by address
+# IS_REVERSE=0 - geocoding by coordinates
+IS_REVERSE=0
 ```
 
 * For direct geocoding, add to `input.csv` data in the format: `id;address`.
@@ -33,6 +34,7 @@ run_geocoder(API_KEY, is_reverse=False)
 
 ## Application launch
 
-* Install [Python](https://www.python.org/)
-* Run `pip install requests`
-* In the project directory run `python start.py`
+In the project directory do:
+* `python -m venv venv && cd venv\Scripts && activate && cd ..\..\`
+* `pip install -r requirements.txt`
+* `python -m geocoder`
